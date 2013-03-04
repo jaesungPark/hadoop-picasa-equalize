@@ -32,6 +32,7 @@ public class PicasaMap extends
 	private FileSystem fs;
 	private Context context;
 
+	@Override
 	public void map(LongWritable key, Text value, Context context) throws
 		IOException, InterruptedException
 	{
@@ -93,9 +94,10 @@ public class PicasaMap extends
 	private void fetchImagesAndSave() {
 		URL currentURL;
 		BufferedImage img;
-		String filename, urlString, pathString;
+		String filename, urlString, equalizedPathString, unequalizedPathString;
 		Path outputPath;
 		int slashIndex;
+		Text outputKey = new Text("" + offset);
 
 		while (imageURLs.size() > 0) {
 			try {
@@ -108,12 +110,17 @@ public class PicasaMap extends
 				filename = urlString.substring(slashIndex+1);
 
 				// Save to hdfs
-				pathString = unequalizedSaveLocation + "/" + filename;
-				outputPath = new Path(pathString);
+				unequalizedPathString = unequalizedSaveLocation + "/" + filename;
+				equalizedPathString = equalizedSaveLocation + "/" + filename;
+
+				outputPath = new Path(unequalizedPathString);
 				ImageIO.write(img, "jpg", fs.create(outputPath));
 
 				// Output 
-				context.write(new Text(pathString), new Text(equalizedSaveLocation));
+				context.write(
+					outputKey, 
+					new Text(unequalizedPathString + "," + equalizedPathString)
+				);
 			}
 			catch (Exception e) {
 				// Couldn't process image. Move on to the next one.

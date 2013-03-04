@@ -16,10 +16,24 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 public class PicasaReduce extends 
 	Reducer<Text, Text, Text, Text>
 {
-	public void reduce(Text key, Text value, Context context) throws
+	private Context context;
+
+	@Override
+	public void reduce(Text key, Iterable<Text> values, Context context) throws
 		IOException, InterruptedException
 	{
-		context.write(key, value);
+		this.context = context;
+		
+		for (Text value : values) {
+			String[] lineParts = value.toString().split(",");
+			String fileLocation = lineParts[0];
+			String saveLocation = lineParts[1];
+
+			context.write(
+				new Text("read from: " + fileLocation), 
+				new Text("save to: " + saveLocation)
+			);
+		}
 	}
 }
 

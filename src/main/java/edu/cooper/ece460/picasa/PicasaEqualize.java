@@ -43,14 +43,15 @@ public class PicasaEqualize {
 		fos.close();
 
 		// Start job
-		Job job = new Job();
+		Job job = new Job(conf, "PicasaEqualize");
 		job.setJarByClass(PicasaEqualize.class);
-
-		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(Text.class);
-
 		job.setMapperClass(PicasaMap.class);
 		job.setReducerClass(PicasaReduce.class);
+
+		job.setMapOutputKeyClass(Text.class);
+		job.setMapOutputValueClass(Text.class);
+		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(Text.class);
 
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
