@@ -19,7 +19,7 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-public class PicasaReduce extends 
+public class PicasaCombine extends 
                               Reducer<Text, Text, Text, Text>{
     private Context context;
     private FileSystem fs;
