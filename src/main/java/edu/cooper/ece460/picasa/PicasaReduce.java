@@ -39,7 +39,6 @@ public class PicasaReduce extends
             outfile = lineParts[1];
 
             try{
-                //image = ImageIO.read(new File(key.toString()));
                 image = ImageIO.read(fs.open(new Path(infile)));
                 equalize();
             }
@@ -47,12 +46,8 @@ public class PicasaReduce extends
                 e.printStackTrace();
             }
 
-            // context.write(
-            //               new Text("read from: " + infile), 
-            //               new Text("save to: " + outfile)
-            //               );
             context.write(
-                          value, 
+                          value,
                           value
                           );
         }
@@ -106,12 +101,9 @@ public class PicasaReduce extends
         BufferedImage equalizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         equalizedImage.setRGB(0, 0, width, height, pixels, 0, width);
 
-        // File outputfile1 = new File("unequalized " + outfile + ".jpg");
         File outputfile2 = new File("equalized " + outfile + ".jpg");
             
         try{
-            //ImageIO.write(image, "jpg", outputfile1);
-            //ImageIO.write(equalizedImage, "jpg", outputfile2);
             ImageIO.write(equalizedImage, "jpg", fs.create(new Path(outfile)));
         }
         catch(Exception e){

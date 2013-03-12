@@ -44,8 +44,9 @@ public class PicasaMap extends
 		String filename = fetchImageAndSave(imageURL,unequalizedPath);
 		unequalizedPath += "/" + filename;
 		equalizedPath += "/" + filename;
+        System.out.println(filename);
 		context.write(
-			new Text("test"), // Replace this with a better key (partitioner?)
+			new Text(unequalizedPath + "," + equalizedPath), // Replace this with a better key (partitioner?)
 			new Text(unequalizedPath + "," + equalizedPath)
 		);
 	}

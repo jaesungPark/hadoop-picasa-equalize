@@ -97,7 +97,10 @@ public class PicasaEqualize {
         Job job = new Job(conf, "PicasaEqualize");
         job.setJarByClass(PicasaEqualize.class);
         job.setMapperClass(PicasaMap.class);
+        job.setPartitionerClass(PicasaPartition.class);
         job.setReducerClass(PicasaReduce.class);
+
+        job.setNumReduceTasks(12);
 
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(Text.class);
